@@ -1,6 +1,6 @@
 import express, { Express, Router } from 'express';
 import path from 'path';
-import { BeautyLogger } from "../logger/beauty.logger";
+import { BeautyLogger } from '../logger/beauty.logger';
 import shrinkRay from 'shrink-ray-current';
 import serveIndex from 'serve-index';
 import { LivereloadApplication } from './livereload.application';
@@ -16,22 +16,28 @@ class ExpressApplication {
     this.router = express.Router();
     this.logger.debug(__dirname);
     this.app.use(shrinkRay());
-    this.app.use('/templates',
+    this.app.use(
+      '/templates',
       express.static(path.join(__dirname, '../../public')),
-      serveIndex(path.join(__dirname, '../../public'), { 'icons': true, 'view': 'details' }));
+      serveIndex(path.join(__dirname, '../../public'), {
+        icons: true,
+        view: 'details'
+      })
+    );
 
     this.app.use(this.router);
   }
 
   public async listen(port: number, livereload: string) {
     this.app.listen(port, () => {
-      this.logger.info(`Server listening on port:${port} - livereload:${livereload}...`);
+      this.logger.info(
+        `Server listening on port:${port} - livereload:${livereload}...`
+      );
     });
     if (livereload == 'true') {
       LivereloadApplication.watch();
     }
   }
-
 }
 
 export { ExpressApplication };

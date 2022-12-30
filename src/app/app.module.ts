@@ -1,4 +1,4 @@
-import { ExpressApplication } from "./server/express.application";
+import { ExpressApplication } from './server/express.application';
 
 class AppModule extends ExpressApplication {
   constructor() {
@@ -6,4 +6,4 @@ class AppModule extends ExpressApplication {
   }
 }
 
-export { AppModule }
+export { AppModule };

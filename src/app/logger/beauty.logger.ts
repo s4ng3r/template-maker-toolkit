@@ -1,17 +1,15 @@
-import { format } from 'date-fns'
-
+import { format } from 'date-fns';
 
 class BeautyLogger {
-
   private timestamp!: string;
   private className: string;
-  private classColor = "\x1b[33m"; 
-  private infoColor = "\x1b[32m";
-  private warnColor = "\x1b[33m";
-  private traceColor = "\x1b[36m";
-  private debugColor = "\x1b[35m";
-  private errorColor = "\x1b[31m";
-  private white = "\x1b[37m";
+  private classColor = '\x1b[33m';
+  private infoColor = '\x1b[32m';
+  private warnColor = '\x1b[33m';
+  private traceColor = '\x1b[36m';
+  private debugColor = '\x1b[35m';
+  private errorColor = '\x1b[31m';
+  private white = '\x1b[37m';
 
   constructor(className: string) {
     this.className = className;
@@ -39,9 +37,10 @@ class BeautyLogger {
 
   private log(str: string, color: string, type: string) {
     this.timestamp = format(new Date(), 'yyyy-MM-dd HH:mm:ss ');
-    console.log(`${color}[MockApi] ${process.pid} ${type} - ${this.white}${this.timestamp} ${this.classColor}[${this.className}] ${color}${str}`);
+    console.log(
+      `${color}[MockApi] ${process.pid} ${type} - ${this.white}${this.timestamp} ${this.classColor}[${this.className}] ${color}${str}`
+    );
   }
-
 }
 
 export { BeautyLogger };
