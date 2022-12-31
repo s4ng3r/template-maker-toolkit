@@ -38,7 +38,7 @@ class BeautyLogger {
   private log(str: string, color: string, type: string) {
     this.timestamp = format(new Date(), 'yyyy-MM-dd HH:mm:ss ');
     console.log(
-      `${color}[MockApi] ${process.pid} ${type} - ${this.white}${this.timestamp} ${this.classColor}[${this.className}] ${color}${str}`
+      `${color}[TemplateMaker] ${process.pid} ${type} - ${this.white}${this.timestamp} ${this.classColor}[${this.className}] ${color}${str}`
     );
   }
 }
