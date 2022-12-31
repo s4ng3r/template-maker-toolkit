@@ -2,6 +2,7 @@ import prompts, { Choice } from 'prompts';
 import globby from 'globby';
 import _ from 'lodash';
 import minimatch from 'minimatch';
+import concurrently from 'concurrently';
 
 abstract class TemplateCli {
   private static async readTemplateDir() {
@@ -59,15 +60,6 @@ abstract class TemplateCli {
     const folders = await this.getFolders(paths);
     const fileTree = await this.getFileTree(paths, folders);
 
-    //console.log(JSON.stringify(fileTree));
-
-    /*const response = await prompts({
-      type: 'text',
-      name: 'meaning',
-      message: 'Template CLI!'
-    });
-    console.log(response.meaning);*/
-
     const choices: Choice[] = [];
 
     for (const folder of fileTree.folders) {
@@ -87,6 +79,23 @@ abstract class TemplateCli {
     });
 
     console.log(response.value);
+    
+    const folder = fileTree.folders.find((f) => f.folderName == response.value);
+
+    const cssFile = folder?.files.find((f) => minimatch(f.fileName, '*.css'));
+
+    const sourcePath = `./src/templates/${response.value}/`;
+    const distPublicPath = `./dist/public/`;
+    const distPath = `${distPublicPath}${response.value}/`;
+    
+
+    const result = concurrently([
+      `npm run postcss -- ${sourcePath}${cssFile?.fileName} -o ${distPath}${cssFile?.fileName}`,
+      `npm run copyfiles -- -a -u 2 ${sourcePath}*.html ${distPublicPath}`
+    ], {
+      prefix: 'live'
+    });
+    await result.result;
   }
 }
 

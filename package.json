@@ -5,8 +5,10 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
+    "postcss": "postcss",
+    "copyfiles": "copyfiles",
+    "nodemon": "nodemon",
     "prettier-format": "prettier --config .prettierrc.json './src/**/*.ts' --write",
-    "livereload": "livereload ./dist/public/example01 --port 3040",
     "watch": "nodemon -e html,css -w ./src/templates/ --exec \"npm run copy:html & npm run build:css\"",
     "build:css": "postcss ./src/templates/main.css -o ./dist/public/main.css",
     "copy:html": "copyfiles -a -u 2 ./src/templates/**/*.html ./dist/public",
