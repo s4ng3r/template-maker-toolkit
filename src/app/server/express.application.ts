@@ -14,7 +14,6 @@ class ExpressApplication {
   constructor() {
     this.app = express();
     this.router = express.Router();
-    this.logger.debug(__dirname);
     this.app.use(shrinkRay());
     this.app.use(
       '/templates',
@@ -28,13 +27,15 @@ class ExpressApplication {
     this.app.use(this.router);
   }
 
-  public async listen(port: number, livereload: string) {
+  public async listen(port: number, livereload: boolean) {
     this.app.listen(port, () => {
       this.logger.info(
-        `Server listening on port:${port} - livereload:${livereload}...`
+        `Server listening on port:${port} - livereload:${
+          livereload || false
+        }...`
       );
     });
-    if (livereload == 'true') {
+    if (livereload == true) {
       LivereloadApplication.watch();
     }
   }

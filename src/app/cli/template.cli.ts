@@ -79,23 +79,25 @@ abstract class TemplateCli {
     });
 
     console.log(response.value);
-    
+
     const folder = fileTree.folders.find((f) => f.folderName == response.value);
 
     const cssFile = folder?.files.find((f) => minimatch(f.fileName, '*.css'));
 
-    const sourcePath = `./src/templates/${response.value}/`;
+    const srcTemplatePath = `./src/templates`;
     const distPublicPath = `./dist/public/`;
+    const sourcePath = `${srcTemplatePath}/${response.value}/`;
     const distPath = `${distPublicPath}${response.value}/`;
-    
 
-    const result = concurrently([
-      `npm run postcss -- ${sourcePath}${cssFile?.fileName} -o ${distPath}${cssFile?.fileName}`,
-      `npm run copyfiles -- -a -u 2 ${sourcePath}*.html ${distPublicPath}`
-    ], {
-      prefix: 'live'
+    const npmPostCSS = `npm run postcss -- ${sourcePath}${cssFile?.fileName} -o ${distPath}${cssFile?.fileName}`;
+    const npmCopyFiles = `npm run copyfiles -- -a -u 2 ${sourcePath}*.html ${distPublicPath}`;
+    const npmNodemon = `npm run nodemon -- -e html,css -w ${srcTemplatePath}/main.css -w ${sourcePath} --exec "${npmCopyFiles} & ${npmPostCSS}"`;
+    const npmRunMain = `node dist/main.js --livereload`;
+
+    concurrently([npmPostCSS, npmCopyFiles, npmNodemon, npmRunMain], {
+      prefix: 'live',
+      killOthers: ['failure']
     });
-    await result.result;
   }
 }
 
