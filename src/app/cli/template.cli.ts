@@ -36,7 +36,7 @@ abstract class TemplateCli {
     const fileTree: FileTree = {
       folders: folderNames
     };
-    
+
     for (const folder of folders) {
       const fileNames: Files[] = [];
       const files = paths.filter((f) => f.includes(folder) == true);
@@ -49,7 +49,7 @@ abstract class TemplateCli {
       folderNames.push({
         folderName: folder,
         files: fileNames
-      })
+      });
     }
     return fileTree;
   }
@@ -70,7 +70,7 @@ abstract class TemplateCli {
 
     const choices: Choice[] = [];
 
-    for(const folder of fileTree.folders) {
+    for (const folder of fileTree.folders) {
       const choice: Choice = {
         title: folder.folderName,
         value: folder.folderName
@@ -79,22 +79,15 @@ abstract class TemplateCli {
     }
 
     const response = await prompts({
-        type: 'select',
-        name: 'value',
-        message: 'Select a template',
-        choices: choices,
-        initial: 0
+      type: 'select',
+      name: 'value',
+      message: 'Select a template to livereload',
+      choices: choices,
+      initial: 0
     });
 
     console.log(response.value);
-
   }
-}
-
-interface Choices {
-  title: string,
-  description?: string,
-
 }
 
 interface FileTree {
@@ -107,7 +100,7 @@ interface Folders {
 }
 
 interface Files {
-  fileName: string
+  fileName: string;
 }
 
 (async () => {
