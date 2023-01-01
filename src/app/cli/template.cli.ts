@@ -91,13 +91,22 @@ abstract class TemplateCli {
 
     const npmPostCSS = `npm run postcss -- ${sourcePath}${cssFile?.fileName} -o ${distPath}${cssFile?.fileName}`;
     const npmCopyFiles = `npm run copyfiles -- -a -u 2 ${sourcePath}*.html ${distPublicPath}`;
-    const npmNodemon = `npm run nodemon -- -e html,css -w ${srcTemplatePath}/main.css -w ${sourcePath} --exec "${npmCopyFiles} & ${npmPostCSS}"`;
+    const npmNodemonHTML = `npm run nodemon -- -e html -w ${sourcePath} --exec "${npmCopyFiles} & ${npmPostCSS}"`;
+    const npmNodemonCSS = `npm run nodemon -- -e css -w ${srcTemplatePath}/main.css -w ${sourcePath} --exec "${npmPostCSS}"`;
     const npmRunMain = `node dist/main.js --livereload`;
 
-    concurrently([npmPostCSS, npmCopyFiles, npmNodemon, npmRunMain], {
+    concurrently([
+      npmPostCSS,
+      npmCopyFiles,
+      npmNodemonHTML,
+      npmNodemonCSS,
+      npmRunMain
+    ],
+    {
       prefix: 'live',
       killOthers: ['failure']
-    });
+    }
+    );
   }
 }
 
