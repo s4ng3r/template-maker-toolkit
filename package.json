@@ -5,12 +5,13 @@
   "main": "index.js",
   "scripts": {
     "tsc": "tsc",
+    "build": "npm run tsc",
     "postcss": "postcss",
     "copyfiles": "copyfiles",
     "nodemon": "nodemon",
     "prettier:ts": "prettier --config .prettierrc.json './src/**/*.ts' --write",
     "prettier:html": "prettier --config .prettierrc.json './src/templates/**/*.html' --write",
-    "cli": "npm run tsc && node dist/app/cli/template.cli.js"
+    "cli": "node dist/app/cli/template.cli.js"
   },
   "repository": {
     "type": "git",
