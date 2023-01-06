@@ -1,4 +1,4 @@
-import express, { Express, Router } from 'express';
+import express, { Express, Request, Response, Router } from 'express';
 import path from 'path';
 import { BeautyLogger } from '../logger/beauty.logger';
 import shrinkRay from 'shrink-ray-current';
@@ -23,7 +23,9 @@ class ExpressApplication {
         view: 'details'
       })
     );
-
+    this.router.get('/', async (_req: Request, res: Response) => {
+      res.redirect('/templates')
+    });
     this.app.use(this.router);
   }
 
