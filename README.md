@@ -31,7 +31,8 @@ Use `tpl` (templates) for css class names, examples:
 ## Images
 To reduce the size of images without losing quality:  
 + SVG: [SVGOMG](https://jakearchibald.github.io/svgomg/)
-+ ALL: [SQUOOSH](https://squoosh.app/)
++ ALL: [SQUOOSH](https://squoosh.app/)  
+
 Use modern image format:
 + WebP: [Images WebP](https://web.dev/i18n/es/serve-images-webp/)
 ## HTML HEAD
