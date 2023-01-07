@@ -21,13 +21,14 @@ npm run cli
 + [Metrics](https://web.dev/metrics/)
 + [Lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=es)
 ![](https://web-dev.imgix.net/image/admin/4j72CWywp2D88Xti8zBf.png?auto=format&w=1600)
-## Main CSS
+## CSS
 Use `tpl` (templates) for css class names, examples:  
 ```
 .btn-tpl-primary {}
 .btn-tpl-secondary {}
 ...etc
 ```
+Check [caniuse](https://caniuse.com/) for browser support.
 ## Images
 To reduce the size of images without losing quality:  
 + SVG: [SVGOMG](https://jakearchibald.github.io/svgomg/)
