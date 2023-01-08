@@ -11,6 +11,9 @@
   h2 {
     @apply text-xl;
   }
+  button {
+    @apply cursor-auto;
+  }
 }
 
 @layer components {
