@@ -2,7 +2,7 @@
 # Requirement
 + [NodeJS LTS](https://nodejs.org/en/)
 # Quickstart
-Run `npm run i` to install all dependencies.</br>
+Run `npm i` to install all dependencies.</br>
 Run `npm run build` to build server and cli.</br>
 Run `npm run cli` to launch livereload on a specific template.</br>
 
