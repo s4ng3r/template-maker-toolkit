@@ -19,6 +19,7 @@ npm run cli
 ## Performance and SEO
 + [Core Web Vitals](https://web.dev/learn-core-web-vitals/)
 + [Metrics](https://web.dev/metrics/)
++ [PageSpeed Insights](https://pagespeed.web.dev/)
 + [Lighthouse](https://chrome.google.com/webstore/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=es)
 ![](https://web-dev.imgix.net/image/admin/4j72CWywp2D88Xti8zBf.png?auto=format&w=1600)
 ## CSS
