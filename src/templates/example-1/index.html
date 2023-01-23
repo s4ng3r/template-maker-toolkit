@@ -4,14 +4,248 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link href="/templates/example-1/example-1.css" rel="stylesheet" media="all"/>
+    <meta name="description" content="Template Example" />
     <title>Document</title>
+    <link
+      href="/templates/example-1/example-1.css"
+      rel="stylesheet"
+      media="all" />
   </head>
-  <body id= "app">
-    <div class="container m-10">
-      <h1 class="text-4xl font-bold underline">Hello world!</h1>
-      <button class="btn-tpl-custom">Save changes</button>
+  <body id="app" class="antialiased">
+    <div class="container mx-auto">
+      <div>
+        <h1 class="text-4xl font-bold underline">Hello world!!!!</h1>
+        <button class="btn-tpl-custom w-48 text-white">Save changes</button>
+      </div>
+      <div id="slider" class="relative overflow-hidden">
+        <div id="slides" class="flex flex-row justify-center">
+          <div
+            class="m-5 h-40 w-40 flex-none rounded-lg bg-gray-500"
+            aria-current="true"></div>
+          <div
+            class="m-5 h-40 w-40 flex-none rounded-lg bg-gray-500"
+            aria-current="false"></div>
+          <div
+            class="m-5 h-40 w-40 flex-none rounded-lg bg-gray-500"
+            aria-current="false"></div>
+        </div>
+        <div id="controls" class="flex flex-row justify-center space-x-3">
+          <div
+            class="h-3 w-3 rounded-full bg-gray-500 hover:bg-cyan-600"
+            aria-current="true"></div>
+          <div
+            class="h-3 w-3 rounded-full bg-gray-500 hover:bg-cyan-600"
+            aria-current="false"></div>
+          <div
+            class="h-3 w-3 rounded-full bg-gray-500 hover:bg-cyan-600"
+            aria-current="false"></div>
+        </div>
+      </div>
     </div>
+    <script>
+      //console.log(navigator.userAgent);
+      //import * as detectIt from 'detect-it';
+
+      var supportsPassive = false;
+      try {
+        var opts = Object.defineProperty({}, 'passive', {
+          get: function () {
+            supportsPassive = true;
+          }
+        });
+        window.addEventListener('testPassive', null, opts);
+        window.removeEventListener('testPassive', null, opts);
+      } catch (e) {}
+
+      function slider() {
+        const $ = document.getElementById('slider');
+        const slides = $.querySelector('#slides');
+        const controls = $.querySelector('#controls');
+
+        if (slides != null) {
+          slides.classList.add('transition-none', 'duration-1000');
+
+          const childProps = {
+            totalSize: 0,
+            current: 0
+          };
+          for (let i = 0; i < slides.children.length; i++) {
+            const child = slides.children.item(i);
+            const compStyles = window.getComputedStyle(child);
+            const marginSize =
+              parseInt(compStyles.marginLeft.replace(/px/, '')) +
+              parseInt(compStyles.marginRight.replace(/px/, ''));
+
+            if (child.getAttribute('aria-current') == 'true') {
+              childProps.current = 0;
+            }
+
+            childProps.totalSize += child.getBoundingClientRect().width;
+          }
+
+          console.log('slides: ', slides.getBoundingClientRect());
+
+          /*const slideSize = childProps.totalSize / slides.children.length;
+          const slideChild = slides.children.item(childProps.current);
+          const controlChild = controls.children.item(childProps.current);
+
+          const nextMove =
+            controlChild.getBoundingClientRect().x -
+            slideChild.getBoundingClientRect().x -
+            slideSize / 2;
+
+          slides.setAttribute('style', `transform: translateX(${nextMove}px);`);*/
+
+          function onButtonClick(child) {
+            slides.classList.replace('transition-none', 'transition-all');
+
+            /*const nextMove =
+              child.getBoundingClientRect().x -
+              slideChild.getBoundingClientRect().x -
+              slideSize / 2;
+
+            slides.setAttribute(
+              'style',
+              `transform: translateX(${nextMove}px);`
+            );*/
+          }
+
+          if (controls != null) {
+            for (const child of controls.children) {
+              child.addEventListener('click', () => {
+                onButtonClick(child);
+              });
+              if (child.getAttribute('aria-current') == 'true') {
+              }
+            }
+          }
+        }
+        $.addEventListener('swipeleft', () => {
+          console.log('WORK LEFT?');
+        });
+        $.addEventListener('swiperight', () => {
+          console.log('WORK RIGHT');
+        });
+        /*const childs = $.children;
+      console.log(childs[0].children[0].getBoundingClientRect());
+      console.log(childs[1].children[0].getBoundingClientRect());*/
+      }
+
+      /*
+       * My Custom Swipe Controls
+       */
+      function swipeControls() {
+        /*const supportsTouch =
+        'ontouchstart' in window || navigator.msminTouchPoints;
+        console.log('supportsTouch: ', supportsTouch);
+        console.log(navigator.userAgent);*/
+        const $ = document.getElementById('slider');
+
+        const startLocation = {
+          x: 0,
+          y: 0
+        };
+        const endLocation = {
+          x: 0,
+          y: 0
+        };
+        const threshold = 10;
+
+        function handleOnMouseDown(event) {
+          event.preventDefault();
+          startLocation.x = event.clientX;
+          startLocation.y = event.clientY;
+        }
+
+        function handleOnMouseUp(event) {
+          event.preventDefault();
+          endLocation.x = event.clientX;
+          endLocation.y = event.clientY;
+          checkSwipe();
+        }
+
+        function handleOnTouchStart(event) {
+          startLocation.x = event.changedTouches[0].clientX;
+          startLocation.y = event.changedTouches[0].clientY;
+        }
+
+        function handleOnTouchEnd(event) {
+          endLocation.x = event.changedTouches[0].clientX;
+          endLocation.y = event.changedTouches[0].clientY;
+          checkSwipe();
+        }
+
+        function checkSwipe() {
+          if (Math.abs(startLocation.x - endLocation.x) > threshold) {
+            if (startLocation.x - endLocation.x > 0) {
+              console.log('SWIPE LEFT!');
+              const swipeleft = new Event('swipeleft');
+              $.dispatchEvent(swipeleft);
+            } else if (startLocation.x - endLocation.x < 0) {
+              console.log('SWIPE RIGHT!');
+              const swiperight = new Event('swiperight');
+              $.dispatchEvent(swiperight);
+            }
+          }
+        }
+
+        $.addEventListener('mousedown', handleOnMouseDown);
+        $.addEventListener('mouseup', handleOnMouseUp);
+        $.addEventListener(
+          'touchstart',
+          handleOnTouchStart,
+          supportsPassive ? { passive: true } : false
+        );
+        $.addEventListener(
+          'touchend',
+          handleOnTouchEnd,
+          supportsPassive ? { passive: true } : false
+        );
+
+        /*if (supportsTouch) {
+          $.removeEventListener('mousedown', handleOnMouseDown);
+          $.removeEventListener('mouseup', handleOnMouseUp);
+          $.addEventListener('touchstart', handleOnTouchStart);
+          $.addEventListener('touchend', handleOnTouchEnd);
+        } else {
+          $.removeEventListener('touchstart', handleOnTouchStart);
+          $.removeEventListener('touchend', handleOnTouchEnd);
+          $.addEventListener('mousedown', handleOnMouseDown);
+          $.addEventListener('mouseup', handleOnMouseUp);
+        }*/
+      }
+
+      document.addEventListener('DOMContentLoaded', () => {
+        swipeControls();
+        slider();
+      });
+
+      /*window.onresize = (event) => {
+        console.log('on resize!');
+      };
+
+      window.onload = (event) => {
+        console.log('on load!');
+      };*/
+
+      // Touch Events
+      /*
+      <script src="/templates/example-1/hammer.min.js"/>
+      var hammertime = new Hammer($);
+      hammertime.on('swipeleft', function (ev) {
+        console.log(ev);
+      });
+
+      hammertime.on('swiperight', function (ev) {
+        console.log(ev);
+      });*/
+      /* Formula centrar div en boton
+      translate(calc((810px - 776px) - (128px/2)), 10px)
+      div     xD yD wD
+      button  xB yB wB
+      == calc ((xB -xD) - (wD/2))
+      */
+    </script>
     <!--<script>
     document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
     ':35729/livereload.js?snipver=1"></' + 'script>')
