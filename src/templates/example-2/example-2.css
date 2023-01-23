@@ -1,0 +1,27 @@
+@import "tailwindcss/base";
+@import "tailwindcss/components";
+@import "tailwindcss/utilities";
+
+
+@layer components {
+  .bg-tpl-skeleton-anim {
+    @apply animate-[SkeletonAnimation_3s_ease_infinite] bg-[length:200%]
+  }
+
+  .bg-tpl-gradient-anim {
+    @apply bg-gradient-to-r from-[#B3CAE0] via-[#E3EDF7] to-[#B3CAE0] bg-tpl-skeleton-anim
+  }
+
+  @keyframes SkeletonAnimation {
+    0%,
+    100% {
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
+    }
+  }
+}
+
+
+
